@@ -1,0 +1,8 @@
+<li *ngIf="authService.isAuthenticated()">
+  <button mat-button (click)="route('profile')">My Profile</button>
+  <button mat-button (click)="route('myevents')">My Events</button>
+  <button mat-button (click)="route('createEvent')">New Event</button>
+  <button mat-button (click)="route('friendsFreetime')">Friends Freetime</button>
+  <button mat-button (click)="route('help')">Help</button>
+  <button mat-button (click)="route('impressum')">Impressum</button>
+</li>

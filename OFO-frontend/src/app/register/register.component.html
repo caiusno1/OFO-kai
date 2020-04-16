@@ -1,0 +1,53 @@
+<div style="display: flex; justify-content: center;">
+  <mat-card style="padding: 100px;padding-left: 200px;padding-right: 200px;">
+    <mat-card-title style="padding-bottom: 50px;">Register @ OFM</mat-card-title>
+    <mat-card-content>
+    <form style="display: flex; flex-flow: column wrap;
+    align-content: space-between;">
+      <mat-form-field>
+        <mat-label>EMail</mat-label>
+        <input matInput type="email" [formControl]="emailFormControl" [errorStateMatcher]="matcher" #emailField>
+        <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+          Please enter a valid email address
+        </mat-error>
+        <mat-error *ngIf="emailFormControl.hasError('required')">
+          Email is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Username</mat-label>
+        <input matInput type="text" [formControl]="usernameFormControl" #usernameField>
+        <mat-error *ngIf="usernameFormControl.hasError('required')">
+          Username is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput type="password" [formControl]="passwordFormControl" #passwordField>
+        <mat-error *ngIf="passwordFormControl.hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+        <mat-error *ngIf="passwordFormControl.hasError('minlength')">
+          Password is too short! The password should have at least <strong>8 characters</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Age</mat-label>
+        <input matInput type="number" [formControl]="ageFormControl" #ageField>
+        <mat-error *ngIf="ageFormControl.hasError('min')">
+          Age should be a <strong>number</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Hobbies</mat-label>
+        <textarea matInput type="text" #hobbiesField></textarea>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>About Me</mat-label>
+        <textarea matInput type="text" #aboutmeField></textarea>
+      </mat-form-field>
+      <button mat-stroked-button>Register Me Now</button>
+    </form>
+  </mat-card-content>
+  </mat-card>
+  </div>

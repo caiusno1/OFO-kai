@@ -1,0 +1,5 @@
+<mat-selection-list #selectionList (selectionChange)="onSelectionChange(selectionList.selectedOptions.selected)">
+  <mat-list-option *ngFor="let friend of friends" [value]="friend" [selected]="friend.selected">
+    {{friend.name}}
+  </mat-list-option>
+</mat-selection-list>

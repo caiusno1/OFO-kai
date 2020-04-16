@@ -1,0 +1,6 @@
+.calendar-wrapper{
+  display: flex;
+}
+.calendar-wrapper mat-calendar{
+  flex-basis: 40%;
+}

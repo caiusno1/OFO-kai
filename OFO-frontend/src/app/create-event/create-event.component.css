@@ -1,0 +1,15 @@
+.createForm{
+  display: flex;
+  background-color: rgba(128, 128, 128, 0.205);
+  align-items: stretch ;
+  flex-direction: column;
+  width: 400px;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+.container{
+  display: flex;
+  justify-content: center;
+  flex-grow: 2;
+}

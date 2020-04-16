@@ -1,0 +1,20 @@
+<div style="display: flex; justify-content: center;">
+<mat-card style="padding: 100px;">
+  <mat-card-title style="padding-bottom: 50px;">Welcome to OFM</mat-card-title>
+  <mat-card-content>
+  <form style="display: flex; flex-flow: column wrap;
+  align-content: space-between;">
+    <mat-form-field>
+      <mat-label>Username</mat-label>
+      <input matInput type="text" #usernameField>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input matInput type="password" #passwordField>
+    </mat-form-field>
+    <button mat-stroked-button (click)="login(usernameField.value, passwordField.value)">Login</button>
+    <button mat-stroked-button (click)="redirectToRegisterView()">Register For Free</button>
+  </form>
+</mat-card-content>
+</mat-card>
+</div>

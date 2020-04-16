@@ -1,0 +1,38 @@
+<div class="container">
+  <form class="createForm">
+    <h2>Create an event</h2>
+    <mat-form-field>
+      <mat-label>Topic</mat-label>
+      <input matInput>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Choose a date</mat-label>
+      <input matInput [matDatepicker]="picker">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Choose a date</mat-label>
+      <input matInput type="time">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Participants</mat-label>
+      <input matInput type="text" [value]="participants | participants2View" readonly>
+    </mat-form-field>
+    <button mat-button (click)="openAddParticipantDialog()">Add Particpant</button>
+    <mat-form-field>
+      <mat-label>Online Service</mat-label>
+      <mat-select [(value)]="selected">
+          <mat-option value="None">None</mat-option>
+          <mat-option value="Skype">Skype</mat-option>
+          <mat-option value="League of Legends">League of Legends</mat-option>
+          <mat-option value="Watch2Gether">Watch2Gether</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Description</mat-label>
+      <textarea matInput></textarea>
+    </mat-form-field>
+    <button mat-button>Submit</button>
+  </form>
+</div>
