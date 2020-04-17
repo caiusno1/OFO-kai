@@ -16,6 +16,7 @@ const authService = new AuthService(db, UserModel);
 
 require('express-ws')(app);
 
+app.set('trust proxy', 'loopback')
 app.use(passport.initialize());
 
 passport.serializeUser(function(user, done) {
@@ -73,9 +74,6 @@ app.ws('*/wschatapi', isLoggedIn ,function(ws, req) {
         console.log(`received ${message}`);
     })
 });
-app.all('*/test', (req,res) => {
-    res.send(`Hello World! ${req.url}`);
-})
 
 app.post('*/authenticate', function (req, res, next) {    passport.authenticate('local', {session: false}, (err, user, info) => {
     if (err || !user) {
@@ -100,6 +98,10 @@ app.get('*/myevents', passport.authenticate('jwt', {session: false}), (req, res)
 });
 app.get('*/friends', passport.authenticate('jwt', {session: false}) , (req, res) => {
     res.send(new userService(req.user, db, UserModel).getFriends());
+});
+
+app.use(function(req, res){
+    res.send(`This is the default api route ${req.url}`);
 });
 
 app.listen(8080, (error) => {

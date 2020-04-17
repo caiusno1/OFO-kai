@@ -1,20 +1,14 @@
 version: '3'
 services:
   frontend:
-   build: OFO-frontend
-   labels:
-    - "traefik.http.routers.frontend.rule=PathPrefix(`/ofo`)"
-    - "traefik.frontend.redirect.regex=^http:\\\\/\\\\/([^\\\\/]+)\\\\/?$$"
-    - "traefik.frontend.redirect.replacement=https://$$1/ofo/"
-   networks:
-    reverse-proxy-net: {}
+    build: OFO-frontend
+    labels:
+     - "traefik.http.routers.frontend.rule=PathPrefix(`/ofo`) || Path(`/`)"
+
   server:
     build: api-server
     labels:
-      - "traefik.http.routers.server.rule=PathPrefix(`/api`)"
-    networks:
-      reverse-proxy-net: {}
-      backend-net: {}
+      - "traefik.http.routers.backend.rule=PathPrefix(`/oapi`)"
     depends_on:
       - mongo
 
@@ -22,7 +16,9 @@ services:
     # The official v2 Traefik docker image
     image: traefik:v2.2
     # Enables the web UI and tells Traefik to listen to docker
-    command: --api.insecure=true --providers.docker
+    command: 
+      - "--api.insecure=false" 
+      - "--providers.docker"
     ports:
       # The HTTP port
       - "80:80"
@@ -31,11 +27,7 @@ services:
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
-    networks:
-      reverse-proxy-net: {}
-    depends_on: 
-      - server
-      - frontend
+
   mongo:
     image: mongo
     restart: always
@@ -44,8 +36,6 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: My1%&7/34W&7/(%45345jdsf)
     volumes:
       - data-volume:/var/lib/db
-    networks:
-      backend-net: {}
   mongo-express:
     image: mongo-express
     restart: always
@@ -61,11 +51,7 @@ services:
       - "8081:8081"
     links:
       - "mongo"
-    networks: 
-      backend-net: {}
     
-networks:
-  reverse-proxy-net:
-  backend-net:
 volumes:
   data-volume:
+    driver: local
