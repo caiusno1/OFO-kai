@@ -7,6 +7,13 @@ import { environment } from './../environments/environment';
   providedIn: 'root'
 })
 export class AuthService {
+  public createUser(email: string, name: string, password: string, age: number, job: string,hobbies: string, aboutMe: string) {
+    return this.http.post(`${environment.apiPrefix}register`, 
+    {email: email, name: name, password: password, age: age, job:job, hobbies: hobbies, aboutMe: aboutMe})
+    .toPromise().catch((err) => Promise.reject()).then((res)=> {
+      if((res as any).status == 0) this.router.navigate(['/login']);
+    });
+  }
 
   constructor(private http: HttpClient, private router: Router) { }
 

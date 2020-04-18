@@ -33,7 +33,7 @@ export class AddParticipateDialogComponent implements OnInit {
         });
         this.friends.filter(
           (item) =>
-            this.data.map(dataitem => dataitem.id).includes(item.id)
+            this.data.map(dataitem => dataitem.name).includes(item.name)
         )
         .forEach((item) => item.selected = true);
       });

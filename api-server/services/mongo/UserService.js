@@ -1,41 +1,44 @@
 
 module.exports = class UserService {
-    friends = [
-        { name: "Noel ", id: "TripleX"},
-        { name: "Erik ", id: "Erronnous"},
-        { name: "Otto ", id: "Otto"},
-    ]
-    profile = {
-        name: "Kai Biermeier",
-        age: "23",
-        hobbies:["programming"],
-        job: "Student",
-        ueberMich: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
-    }
-    myevents = [
-        {
-          date: '20.02.2020',
-          time: '10:30',
-          topic: 'Ranked Game (SoloQ)',
-          service: 'League of Legends'
-        },
-        {
-          date: '20.02.2020',
-          time: '13:30',
-          topic: 'Clash',
-          service: 'League of Legends'
-        }
-    ]
-    constructor(userName, db, UserModel){
-        // console.log(`User ${userName} issues a request`);
+    userModel;
+    username;
+    userID;
+    db;
+    eventModel;
+
+    constructor(puser, pdb, pUserModel, EventModel){
+        this.userModel = pUserModel;
+        this.db = pdb;
+        this.username = puser.name;
+        this.userID = puser.id;
+        this.eventModel = EventModel;
     }
     getFriends(){
-        return this.friends;
+        return this.userModel.find({name:this.username}).populate('friends').then((res)=>{
+            return Promise.resolve(res.friends.map((friend)=>{return {name:friend.name,id:friend._id}}));
+        });
     }
     getProfile(){
-        return this.profile;
+        return this.userModel.findOne({name:this.username}).then((res)=>{
+            // console.log(res);
+            return Promise.resolve({name:res.name,age:res.age, hobbies:res.hobbies, job:res.job, aboutMe: res.ueberMich});
+        });
     }
     getMyEvents(){
-        return this.myevents;
+        return this.eventModel.find().populate({
+            path: "participants",
+            match: { name: this.username },
+            select: "name"
+        }).then((res)=>{
+            let myEvents = [];
+            for(const event of res){
+                myEvents.push({topic: event.topic, date: event.date, time: event.time, participants: event.participants});
+            }
+            return myEvents;
+        });
+    }
+    addToMyEvents(topic, date, time, participants){
+        const newEvent = new EventModel({topic:topic, date: date, time: time, participants: participants.map(participant => id)})
+        newEvent.save().then(() => console.log('Event saved'));
     }
 }

@@ -3,17 +3,17 @@
     <h2>Create an event</h2>
     <mat-form-field>
       <mat-label>Topic</mat-label>
-      <input matInput>
+      <input matInput #topicField>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Choose a date</mat-label>
-      <input matInput [matDatepicker]="picker">
+      <input matInput [matDatepicker]="picker" #dateField>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
     <mat-form-field>
-      <mat-label>Choose a date</mat-label>
-      <input matInput type="time">
+      <mat-label>Choose a time</mat-label>
+      <input matInput #timeField type="time">
     </mat-form-field>
     <mat-form-field>
       <mat-label>Participants</mat-label>
@@ -33,6 +33,6 @@
       <mat-label>Description</mat-label>
       <textarea matInput></textarea>
     </mat-form-field>
-    <button mat-button>Submit</button>
+    <button mat-button (click)="submitEvent(topicField.value, dateField.value, timeField.value)">Submit</button>
   </form>
 </div>

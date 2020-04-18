@@ -1,7 +1,7 @@
 export interface IProfile{
   name: string;
   age: number;
-  hobbies: string[];
+  hobbies: string;
   job: string;
-  ueberMich: string;
+  aboutMe: string;
 }

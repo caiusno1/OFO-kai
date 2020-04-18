@@ -3,7 +3,7 @@
     <mat-card-title style="padding-bottom: 50px;">Register @ OFM</mat-card-title>
     <mat-card-content>
     <form style="display: flex; flex-flow: column wrap;
-    align-content: space-between;">
+    align-content: space-between;" [formGroup]="ngForm">
       <mat-form-field>
         <mat-label>EMail</mat-label>
         <input matInput type="email" [formControl]="emailFormControl" [errorStateMatcher]="matcher" #emailField>
@@ -39,6 +39,10 @@
         </mat-error>
       </mat-form-field>
       <mat-form-field>
+        <mat-label>Job</mat-label>
+        <textarea matInput type="text" #jobField></textarea>
+      </mat-form-field>
+      <mat-form-field>
         <mat-label>Hobbies</mat-label>
         <textarea matInput type="text" #hobbiesField></textarea>
       </mat-form-field>
@@ -46,7 +50,10 @@
         <mat-label>About Me</mat-label>
         <textarea matInput type="text" #aboutmeField></textarea>
       </mat-form-field>
-      <button mat-stroked-button>Register Me Now</button>
+      <button mat-stroked-button [disabled]="!ngForm.valid" (click)="submit(emailField.value,usernameField.value,passwordField.value, ageField.value, jobField.value, hobbiesField.value, aboutmeField.value)">Register Me Now</button>
+      <mat-error *ngIf="serverError">
+        {{serverError}}
+      </mat-error>
     </form>
   </mat-card-content>
   </mat-card>

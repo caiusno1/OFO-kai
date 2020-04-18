@@ -8,9 +8,9 @@ const JWTStrategy   = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 const  LocalStrategy  =  require('passport-local').Strategy;
 
-const userService = require('./services/mocks/MockUserService');
-const userv = require('./services/mongo/UserService');
-const {db, UserModel} = require('./services/mongo/MainDBService')
+const userServiceMock = require('./services/mocks/MockUserService');
+const userService = require('./services/mongo/UserService');
+const {db, UserModel, EventModel} = require('./services/mongo/MainDBService')
 const AuthService = require('./services/mongo/AuthService');
 const authService = new AuthService(db, UserModel);
 
@@ -27,22 +27,14 @@ passport.deserializeUser(function(id, done) {
     done(null, id);
 });
 
-const isLoggedIn = (req, res, next) => {
-    if(req.isAuthenticated()){
-        return next()
-    }
-    return res.status(400).json({"statusCode" : 400, "message" : "not authenticated"})
-}
-
 app.use(bodyparser.urlencoded({extended: true}));
 app.use(bodyparser.json());
 const strategy = new LocalStrategy(
     function(username, password, done) {
         authService.verify(username,password)
-        .then((authentificated) => {
-            console.log(authentificated);
-            if(authentificated){
-                return done(null, username);
+        .then((user) => {
+            if(user){
+                return done(null, {name:user.name, id:user._id});
             }
             else {
                 return done("unauthorized access", false);
@@ -60,13 +52,13 @@ passport.use(new JWTStrategy({
 },
 function (jwtPayload, cb) {
     //find the user in db if needed. This functionality may be omitted if you store everything you'll need in JWT payload.
-    if(authService.userNameExists(jwtPayload)){
+    if(authService.userNameExists(jwtPayload.name)){
         return cb(null,jwtPayload);
     }
 }
 ));
 
-app.ws('*/wschatapi', isLoggedIn ,function(ws, req) {
+app.ws('*/wschatapi', passport.authenticate('jwt', {session: false}) ,function(ws, req) {
     ws.on('connection', function(ws){
         console.log('new client connected');
     })
@@ -90,14 +82,43 @@ app.post('*/authenticate', function (req, res, next) {    passport.authenticate(
     });
 })(req, res);
 });
+app.post('*/register', (req, res) => { 
+    UserModel.exists({name:req.body.name}).then(userExists => {
+        if(!userExists){
+            const newUser = new UserModel({ name: req.body.name, id: req.body.id, age: req.body.age, hobbies: req.body.hobbies, job: req.body.job, ueberMich: req.body.aboutMe, password: req.body.password });
+            newUser.save().then(
+                () => {
+                    res.send({message:"User created", status : 0})
+                }
+            ).catch((err) => 
+                res.send({message:"User could not be created due to server error. Please try again later.", status : 1})
+            );
+        } else {
+            res.send({message:"User already exists", status : 1})
+        }  
+    });
+    
+});
 app.get('*/profile', passport.authenticate('jwt', {session: false}), (req, res) => {
-    res.send(new userService(req.user, db, UserModel).getProfile());
+    new userService(req.user, db, UserModel, EventModel).getProfile().then((profile)=> {
+        res.send(profile);
+    }).catch(err => {
+        res.send({message:"No profile found"});
+    });
 });
 app.get('*/myevents', passport.authenticate('jwt', {session: false}), (req, res) => {
-    res.send(new userService(req.user, db, UserModel).getMyEvents());
+    new userService(req.user, db, UserModel, EventModel).getMyEvents().then((myevents)=> {
+        res.send(myevents);
+    }).catch(err => {
+        res.send({message:`Failure while loading: ${err}`});
+    });
 });
 app.get('*/friends', passport.authenticate('jwt', {session: false}) , (req, res) => {
-    res.send(new userService(req.user, db, UserModel).getFriends());
+    new userService(req.user, db, UserModel, EventModel).getFriends().then((friends)=> {
+        res.send(friends);
+    }).catch(err => {
+        res.send({message:"Failure while loading"});
+    });
 });
 
 app.use(function(req, res){

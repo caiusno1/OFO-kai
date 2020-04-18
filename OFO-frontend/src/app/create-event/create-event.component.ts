@@ -28,5 +28,8 @@ export class CreateEventComponent implements OnInit {
       this.participants = result;
     });
   }
+  submitEvent(topic, date, time){
+    
+  }
 
 }

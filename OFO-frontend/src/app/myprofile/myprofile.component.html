@@ -5,14 +5,14 @@
     </mat-card-header>
     <img style="max-width: 100px; margin-left: 20px;" matCardImage height="100" src="https://scontent-frt3-1.xx.fbcdn.net/v/t1.0-1/p160x160/33488304_1144034999069836_7105768764095856640_n.jpg?_nc_cat=108&_nc_sid=dbb9e7&_nc_ohc=UKJhnwbngC8AX9mouoO&_nc_ht=scontent-frt3-1.xx&_nc_tp=6&oh=a0bec3d697149e142b9b9e38a5f57efb&oe=5EB9B181">
     <mat-card-content>
-      Hobbies:{{(user | async)?.hobbies?.join(", ") }}
+      Hobbies:{{(user | async)?.hobbies }}
     </mat-card-content>
     <mat-card-content>
       Job:{{(user | async)?.job}}
     </mat-card-content>
     <h2>Über mich</h2>
     <mat-card-content>
-      {{(user | async)?.ueberMich}}
+      {{(user | async)?.aboutMe}}
     </mat-card-content>
     <button mat-button>Change</button>
 </mat-card>
