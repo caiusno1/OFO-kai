@@ -22,7 +22,7 @@
     <button mat-button (click)="openAddParticipantDialog()">Add Particpant</button>
     <mat-form-field>
       <mat-label>Online Service</mat-label>
-      <mat-select [(value)]="selected">
+      <mat-select [(value)]="selected" #platform>
           <mat-option value="None">None</mat-option>
           <mat-option value="Skype">Skype</mat-option>
           <mat-option value="League of Legends">League of Legends</mat-option>
@@ -33,6 +33,6 @@
       <mat-label>Description</mat-label>
       <textarea matInput></textarea>
     </mat-form-field>
-    <button mat-button (click)="submitEvent(topicField.value, dateField.value, timeField.value)">Submit</button>
+    <button mat-button (click)="submitEvent(topicField.value, dateField.value, timeField.value, platform.value)">Submit</button>
   </form>
 </div>

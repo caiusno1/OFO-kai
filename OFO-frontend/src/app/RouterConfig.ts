@@ -1,3 +1,4 @@
+import { MyEventComponent } from './my-event/my-event.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuardService } from './auth-guard.service';
@@ -35,8 +36,12 @@ export const RouterConfig = [
     canActivate : [AuthGuardService]
   },
   {
-    path: 'friendsFreetime',
+    path: 'freetime',
     component: FriendsFreetimeComponent,
     canActivate : [AuthGuardService]
+  },
+  {
+    path: 'myevent/:id',
+    component: MyEventComponent
   }
 ];

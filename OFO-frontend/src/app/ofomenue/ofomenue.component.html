@@ -1,8 +1,23 @@
-<li *ngIf="authService.isAuthenticated()">
+<div *ngIf="authService.isAuthenticated()" class="mobile">
+<button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" id="menueMainbtn">
+  <mat-icon>more_vert</mat-icon>
+</button>
+<span class="banner">Online Freetime Manager</span>
+<mat-menu #menu>
   <button mat-button (click)="route('profile')">My Profile</button>
   <button mat-button (click)="route('myevents')">My Events</button>
   <button mat-button (click)="route('createEvent')">New Event</button>
-  <button mat-button (click)="route('friendsFreetime')">Friends Freetime</button>
+  <button mat-button (click)="route('freetime')">Friends Freetime</button>
+  <button mat-button (click)="route('help')">Help</button>
+  <button mat-button (click)="route('impressum')">Impressum</button>
+</mat-menu>
+</div>
+<li *ngIf="authService.isAuthenticated()" class="notmobile">
+  <span class="banner">Online Freetime Manager</span>
+  <button mat-button (click)="route('profile')">My Profile</button>
+  <button mat-button (click)="route('myevents')">My Events</button>
+  <button mat-button (click)="route('createEvent')">New Event</button>
+  <button mat-button (click)="route('freetime')">Freetime</button>
   <button mat-button (click)="route('help')">Help</button>
   <button mat-button (click)="route('impressum')">Impressum</button>
 </li>
