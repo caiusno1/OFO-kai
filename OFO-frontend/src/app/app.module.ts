@@ -27,6 +27,11 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { MatButtonModule } from '@angular/material/button';
 import { RegisterComponent } from './register/register.component';
+import { CalendarBlockDirective } from './calendar-block.directive';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatIconModule} from '@angular/material/icon';
+import { MyEventComponent } from './my-event/my-event.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +44,9 @@ import { RegisterComponent } from './register/register.component';
     AddParticipateDialogComponent,
     Participants2ViewPipe,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    CalendarBlockDirective,
+    MyEventComponent
   ],
   imports: [
     BrowserModule,
@@ -57,6 +64,9 @@ import { RegisterComponent } from './register/register.component';
     MatCardModule,
     MatListModule,
     MatButtonModule,
+    DragDropModule,
+    MatMenuModule,
+    MatIconModule,
     RouterModule.forRoot(RouterConfig),
   ],
   providers: [

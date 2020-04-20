@@ -1,6 +1,38 @@
-.calendar-wrapper{
+.FreeTimeCalendar{
   display: flex;
+  flex-direction: row;
+  height: 100%;
 }
-.calendar-wrapper mat-calendar{
-  flex-basis: 40%;
+.FreeTimeCalendar div.col:nth-child(2n){
+  background-color: lightblue;
+  flex-basis: 12.5%;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+.FreeTimeCalendar div.col:nth-child(2n+1){
+  background-color: lightgray;
+  flex-basis: 12.5%;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+#siteMain{
+  padding-top: 1%;
+  height: 70%;
+}
+.calheader{
+  font-size: 1.5em;
+  border: 1px solid black;
+  height: 30px;
+  width: 100%;
+  text-align: center;
+}
+.freeTime{
+  border: 2px solid blue;
+  width: 99%;
+  min-height: 20px;
+}
+.calSlot{
+  height: 100%;
 }

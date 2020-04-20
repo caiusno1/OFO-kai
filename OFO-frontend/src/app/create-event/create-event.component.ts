@@ -1,3 +1,4 @@
+import { EventService } from './../event.service';
 import { Participant } from './../Participants';
 import { Component, OnInit } from '@angular/core';
 import { AddParticipateDialogComponent } from '../add-participate-dialog/add-participate-dialog.component';
@@ -12,7 +13,7 @@ import {MatDialog} from '@angular/material/dialog';
 export class CreateEventComponent implements OnInit {
   selected = 'None';
   public participants: Participant[] = [];
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog, private eventService: EventService) { }
 
   ngOnInit(): void {
 
@@ -28,8 +29,9 @@ export class CreateEventComponent implements OnInit {
       this.participants = result;
     });
   }
-  submitEvent(topic, date, time){
-    
+  submitEvent(topic, date, time, platform){
+    console.log("Save event");
+    this.eventService.addEvent({topic, date, time, participants: this.participants, platform});
   }
 
 }
