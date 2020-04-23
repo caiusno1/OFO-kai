@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
+// mongoose.set('debug', true);
 const Schema = mongoose.Schema;
 mongoose.connect('mongodb://root:My1%25%267%2F34W%267%2F%28%2545345jdsf%29@mongo:27017/UserDB?authSource=admin', {useNewUrlParser: true, useUnifiedTopology: true});
 
 const UserModel = mongoose.model('User', { name: {type:String, unique : true, required : true, dropDups: true}, age: Number, hobbies: String, job: String, ueberMich: String, password: String, friends:[{type: Schema.Types.ObjectId, ref: 'User'}] });
-const EventModel = mongoose.model('Event', { topic:String, date: String, time: String, organiser: {type: Schema.Types.ObjectId, ref: 'User'}, participants: [{type: Schema.Types.ObjectId, ref: 'User'}]});
+const EventModel = mongoose.model('Event', { topic:String, date: String, time: String, organiser: {type: Schema.Types.ObjectId, ref: 'User'}, participants: [{type: Schema.Types.ObjectId, ref: 'User'}], platform: String});
 
 UserModel.exists({ name: 'Kai'}).then(userExists => {
     if(!userExists){

@@ -103,7 +103,7 @@ app.get('*/profile', passport.authenticate('jwt', {session: false}), (req, res) 
     new userService(req.user, db, UserModel, EventModel).getProfile().then((profile)=> {
         res.send(profile);
     }).catch(err => {
-        res.send({message:"No profile found"});
+        res.send({message:`Failure while loading: ${err}`});
     });
 });
 app.get('*/myevents', passport.authenticate('jwt', {session: false}), (req, res) => {
@@ -117,7 +117,21 @@ app.get('*/friends', passport.authenticate('jwt', {session: false}) , (req, res)
     new userService(req.user, db, UserModel, EventModel).getFriends().then((friends)=> {
         res.send(friends);
     }).catch(err => {
-        res.send({message:"Failure while loading"});
+        res.send({message:`Failure while loading: ${err}`});
+    });
+});
+app.post('*/addEvent', passport.authenticate('jwt', {session: false}) , (req, res) => {
+    new userService(req.user, db, UserModel, EventModel).addToMyEvents(req.body).then((friends)=> {
+        res.send(friends);
+    }).catch(err => {
+        res.send({message:`Failure while loading: ${err}`}, status = 1);
+    });
+});
+app.post('*/getMyEvent', passport.authenticate('jwt', {session: false}) , (req, res) => {
+    new userService(req.user, db, UserModel, EventModel).getMyEventByID(req.body).then((myevent)=> {
+        res.send(myevent);
+    }).catch(err => {
+        res.send({message:`Failure while loading: ${err}`}, status = 1);
     });
 });
 
