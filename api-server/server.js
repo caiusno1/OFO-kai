@@ -124,7 +124,14 @@ app.post('*/addEvent', passport.authenticate('jwt', {session: false}) , (req, re
     new userService(req.user, db, UserModel, EventModel).addToMyEvents(req.body).then((friends)=> {
         res.send(friends);
     }).catch(err => {
-        res.send({message:`Failure while loading: ${err}`});
+        res.send({message:`Failure while loading: ${err}`}, status = 1);
+    });
+});
+app.post('*/getMyEvent', passport.authenticate('jwt', {session: false}) , (req, res) => {
+    new userService(req.user, db, UserModel, EventModel).getMyEventByID(req.body).then((myevent)=> {
+        res.send(myevent);
+    }).catch(err => {
+        res.send({message:`Failure while loading: ${err}`}, status = 1);
     });
 });
 

@@ -39,6 +39,11 @@ module.exports = class UserService {
             console.log(`Error:${err}`);
         });
     }
+    getMyEventByID(id){
+        return this.eventModel.findById(id).then((res) => {
+            return {topic: event.topic, date: event.date, time: event.time, participants: event.participants.map((participant)=> {return {name:participant.name, id:participant.id}}), service:event.platform};
+        })
+    }
     addToMyEvents(event){
         const newEvent = new this.eventModel({topic:event.topic, date: event.date, time: event.time, participants: event.participants.map(participant => ObjectId(participant.id)), organiser: this.userID, platform: event.platform})
         return newEvent.save().then(() => console.log('Event saved'));
