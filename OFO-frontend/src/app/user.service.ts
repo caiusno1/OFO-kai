@@ -21,4 +21,7 @@ export class UserService {
   public getMyEvents(){
     return this.httpClient.get<any[]>(`${this.urlPrefix}myevents`);
   }
+  public setMyFreetime(freetime: any){
+    return this.httpClient.post<any[]>(`${this.urlPrefix}setMyFreetime`, freetime).toPromise();
+  }
 }

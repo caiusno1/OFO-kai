@@ -34,5 +34,11 @@
       <textarea matInput></textarea>
     </mat-form-field>
     <button mat-button (click)="submitEvent(topicField.value, dateField.value, timeField.value, platform.value)">Submit</button>
+    <p style="border: 1px dashed black;" *ngIf="createdSuccessfull">
+      The event was created successfull.
+    </p>
+    <p style="border: 1px dashed black;" *ngIf="createdUnSuccessfull">
+      The event can't be created.
+    </p>
   </form>
 </div>

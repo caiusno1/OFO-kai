@@ -12,6 +12,8 @@ import {MatDialog} from '@angular/material/dialog';
 })
 export class CreateEventComponent implements OnInit {
   selected = 'None';
+  createdSuccessfull = false;
+  createdUnSuccessfull = false;
   public participants: Participant[] = [];
   constructor(public dialog: MatDialog, private eventService: EventService) { }
 
@@ -31,7 +33,13 @@ export class CreateEventComponent implements OnInit {
   }
   submitEvent(topic, date, time, platform){
     console.log("Save event");
-    this.eventService.addEvent({topic, date, time, participants: this.participants, platform});
+    this.eventService.addEvent({topic, date, time, participants: this.participants, platform}).then((msg) => {
+      if ( (msg as any).status){
+        this.createdUnSuccessfull = true;
+      } else {
+        this.createdSuccessfull = true;
+      }
+    });
   }
 
 }

@@ -1,5 +1,31 @@
 <mat-card style="padding: 100px;">
   <mat-card-title style="padding-bottom: 50px;">Event with id </mat-card-title>
   <mat-card-content>
+    <table>
+      <tr>
+        <td>Topic:</td>
+        <td>{{(myEvent$|async)?.topic}}</td>
+      </tr>
+      <tr>
+        <td>Date:</td>
+        <td>{{(myEvent$|async)?.date}}</td>
+      </tr>
+      <tr>
+        <td>Time:</td>
+        <td>{{(myEvent$|async)?.time}}</td>
+      </tr>
+      <tr>
+        <td>Organiser:</td>
+        <td>{{(myEvent$|async)?.organiser}}</td>
+      </tr>
+      <tr>
+        <td>Platform:</td>
+        <td>{{(myEvent$|async)?.platform}}</td>
+      </tr>
+      <tr>
+        <td>Participants:</td>
+        <td>{{(myEvent$|async)?.participants | participants2View}}</td>
+      </tr>
+    </table>
 </mat-card-content>
 </mat-card>
