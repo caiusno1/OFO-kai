@@ -29,7 +29,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
   mongo:
-    image: mongo
+    image: mongo:4.2.6-bionic
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root

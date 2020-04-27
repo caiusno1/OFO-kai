@@ -14,8 +14,10 @@ export class MyEventComponent implements OnInit {
   public myEvent$: Observable<OFOEvent>;
   constructor(private route: ActivatedRoute, private eventService: EventService) {
     this.myEvent$ = this.route.paramMap.pipe(
-      switchMap<ParamMap, Observable<OFOEvent>>((params: ParamMap) =>
-        this.eventService.getEvent(params.get('id')))
+      switchMap<ParamMap, Observable<OFOEvent>>((params: ParamMap) => {
+        return this.eventService.getEvent(params.get('id'));
+      }
+      )
     );
   }
 

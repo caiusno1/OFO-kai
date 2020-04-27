@@ -16,16 +16,21 @@
       </tr>
       <tr>
         <td>Organiser:</td>
-        <td>{{(myEvent$|async)?.organiser}}</td>
+        <td>{{(myEvent$|async)?.organiser?.name}}</td>
       </tr>
       <tr>
         <td>Platform:</td>
-        <td>{{(myEvent$|async)?.platform}}</td>
+        <td>{{(myEvent$|async)?.service}}</td>
+      </tr>
+      <tr>
+        <td>Description:</td>
+        <td><p>{{(myEvent$|async)?.description}}</p></td>
       </tr>
       <tr>
         <td>Participants:</td>
         <td>{{(myEvent$|async)?.participants | participants2View}}</td>
       </tr>
     </table>
+    <button>Join</button>
 </mat-card-content>
 </mat-card>

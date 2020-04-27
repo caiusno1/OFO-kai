@@ -1,6 +1,6 @@
 <mat-toolbar>
   <app-ofomenue></app-ofomenue>
-  <button matButton id="logoutBtn" (click)="logout()">Logout</button>
+  <button *ngIf="authService.isAuthenticated()"  mat-button id="logoutBtn" (click)="logout()">Logout</button>
 </mat-toolbar>
 <router-outlet></router-outlet>
 

@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { EventService } from './../event.service';
 import { Participant } from './../Participants';
 import { Component, OnInit } from '@angular/core';
@@ -14,6 +15,8 @@ export class CreateEventComponent implements OnInit {
   selected = 'None';
   createdSuccessfull = false;
   createdUnSuccessfull = false;
+  shareLink = null;
+  shareLinkEncoded = null;
   public participants: Participant[] = [];
   constructor(public dialog: MatDialog, private eventService: EventService) { }
 
@@ -31,12 +34,14 @@ export class CreateEventComponent implements OnInit {
       this.participants = result;
     });
   }
-  submitEvent(topic, date, time, platform){
-    console.log("Save event");
-    this.eventService.addEvent({topic, date, time, participants: this.participants, platform}).then((msg) => {
+  submitEvent(topic, date, time, platform, description){
+    console.log('Save event');
+    this.eventService.addEvent({topic, date, time, participants: this.participants, platform, description}).then((msg) => {
       if ( (msg as any).status){
         this.createdUnSuccessfull = true;
       } else {
+        this.shareLink = `${environment.sourceDomain}share/${(msg as any).id}`;
+        this.shareLinkEncoded = encodeURIComponent(this.shareLink);
         this.createdSuccessfull = true;
       }
     });

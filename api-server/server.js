@@ -121,17 +121,41 @@ app.get('*/friends', passport.authenticate('jwt', {session: false}) , (req, res)
     });
 });
 app.post('*/addEvent', passport.authenticate('jwt', {session: false}) , (req, res) => {
-    new userService(req.user, db, UserModel, EventModel).addToMyEvents(req.body).then((friends)=> {
-        res.send(friends);
+    new userService(req.user, db, UserModel, EventModel).addToMyEvents(req.body).then((event)=> {
+        res.send(event);
     }).catch(err => {
-        res.send({message:`Failure while loading: ${err}`}, status = 1);
+        res.send({message:`Failure while loading: ${err}`, status : 1});
     });
 });
 app.post('*/getMyEvent', passport.authenticate('jwt', {session: false}) , (req, res) => {
-    new userService(req.user, db, UserModel, EventModel).getMyEventByID(req.body).then((myevent)=> {
+    new userService(req.user, db, UserModel, EventModel).getMyEventByID(req.body.id).then((myevent)=> {
         res.send(myevent);
     }).catch(err => {
-        res.send({message:`Failure while loading: ${err}`}, status = 1);
+        res.send({message:`Failure while loading: ${err}`, status : 1});
+    });
+});
+
+app.post('*/setMyFreetime', passport.authenticate('jwt', {session: false}) , (req, res) => {
+    new userService(req.user, db, UserModel, EventModel).setMyFreetime(req.body).then((myevent)=> {
+        res.send(myevent);
+    }).catch(err => {
+        res.send({message:`Failure while loading: ${err}`, status : 1});
+    });
+});
+
+app.get('*/getMyFreetime', passport.authenticate('jwt', {session: false}) , (req, res) => {
+    new userService(req.user, db, UserModel, EventModel).getMyFreetime().then((myevent)=> {
+        res.send(myevent);
+    }).catch(err => {
+        res.send({message:`Failure while loading: ${err}`, status : 1});
+    });
+});
+
+app.get('*/getUserFreetime', passport.authenticate('jwt', {session: false}) , (req, res) => {
+    new userService(req.user, db, UserModel, EventModel).getUserFreetime().then((myevent)=> {
+        res.send(myevent);
+    }).catch(err => {
+        res.send({message:`Failure while loading: ${err}`, status : 1});
     });
 });
 

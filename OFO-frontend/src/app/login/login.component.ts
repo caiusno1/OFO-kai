@@ -1,6 +1,9 @@
+import { OFOEvent } from './../OFOEvent';
+import { Observable, of } from 'rxjs';
 import { AuthService } from './../auth.service';
 import { Component, OnInit, Input, Output } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -13,21 +16,45 @@ export class LoginComponent implements OnInit {
 
   public userPassword = '';
 
-  constructor(private authService: AuthService, private router: Router) { }
+  public targetEventID: string;
+
+  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) {
+    this.route.params.subscribe(params => {
+      console.log("Params"+ params);
+      this.targetEventID = params.id;
+    });
+   }
 
   ngOnInit() {
-
+    if (this.authService.isAuthenticated()){
+      if (this.targetEventID){
+        console.log(this.targetEventID);
+        this.router.navigate([`/myevent/${this.targetEventID}`]);
+      } else {
+        this.router.navigate(['/profile']);
+      }
+    }
   }
 
   login(username, password){
     this.authService.validate(username, password)
     .then((response) => {
       this.authService.setUserInfo((response as any).token);
-      this.router.navigate(['']);
+      if (this.targetEventID){
+        console.log(this.targetEventID);
+        this.router.navigate([`/myevent/${this.targetEventID}`]);
+      } else {
+        this.router.navigate(['/profile']);
+      }
+
     }).catch(err => console.log('login rejected'));
   }
   redirectToRegisterView(){
-    this.router.navigate(['/register']);
+    if (this.targetEventID){
+      this.router.navigate([`/register/${this.targetEventID}`]);
+    } else {
+      this.router.navigate(['/register']);
+    }
   }
 
 }

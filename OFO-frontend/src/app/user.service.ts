@@ -10,8 +10,12 @@ import { environment } from './../environments/environment';
 })
 export class UserService {
   private urlPrefix = environment.apiPrefix;
+
   constructor(private httpClient: HttpClient) { }
 
+  public getMyFreetime(): any{
+    return this.httpClient.get(`${this.urlPrefix}getMyFreetime`).toPromise();
+  }
   public getProfile(): Observable<IProfile>{
     return this.httpClient.get<IProfile>(`${this.urlPrefix}profile`);
   }
@@ -22,6 +26,6 @@ export class UserService {
     return this.httpClient.get<any[]>(`${this.urlPrefix}myevents`);
   }
   public setMyFreetime(freetime: any){
-    return this.httpClient.post<any[]>(`${this.urlPrefix}setMyFreetime`, freetime).toPromise();
+    return this.httpClient.post<any>(`${this.urlPrefix}setMyFreetime`, freetime).toPromise();
   }
 }

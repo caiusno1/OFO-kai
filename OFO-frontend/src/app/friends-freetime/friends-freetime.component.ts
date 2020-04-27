@@ -21,6 +21,10 @@ export class FriendsFreetimeComponent{
   outfreetimeHandler: Freetimehandler;
   constructor(private userService: UserService){
     this.infreetimeHandler = new Freetimehandler();
+    this.userService.getMyFreetime().then( (freetime) => {
+      console.log(freetime);
+      this.infreetimeHandler = freetime;
+    });
     this.outfreetimeHandler = new Freetimehandler();
   }
   changeFreetimeMonday(time){

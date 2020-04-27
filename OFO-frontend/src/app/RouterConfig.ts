@@ -17,7 +17,15 @@ export const RouterConfig = [
     component: LoginComponent
   },
   {
+    path: 'share/:id',
+    component: LoginComponent
+  },
+  {
     path: 'register',
+    component: RegisterComponent
+  },
+  {
+    path: 'register/:id',
     component: RegisterComponent
   },
   {
@@ -42,6 +50,7 @@ export const RouterConfig = [
   },
   {
     path: 'myevent/:id',
-    component: MyEventComponent
+    component: MyEventComponent,
+    canActivate : [AuthGuardService]
   }
 ];

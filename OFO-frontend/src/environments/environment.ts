@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiPrefix : 'http://localhost/oapi/'
+  apiPrefix : 'http://localhost/oapi/',
+  sourceDomain : 'http://localhost:4200/'
 };
 
 /*

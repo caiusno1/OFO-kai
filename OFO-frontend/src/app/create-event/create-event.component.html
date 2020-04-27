@@ -22,7 +22,7 @@
     <button mat-button (click)="openAddParticipantDialog()">Add Particpant</button>
     <mat-form-field>
       <mat-label>Online Service</mat-label>
-      <mat-select [(value)]="selected" #platform>
+      <mat-select [(value)]="selected" #platformField>
           <mat-option value="None">None</mat-option>
           <mat-option value="Skype">Skype</mat-option>
           <mat-option value="League of Legends">League of Legends</mat-option>
@@ -31,12 +31,16 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label>Description</mat-label>
-      <textarea matInput></textarea>
+      <textarea matInput #descriptionField></textarea>
     </mat-form-field>
-    <button mat-button (click)="submitEvent(topicField.value, dateField.value, timeField.value, platform.value)">Submit</button>
-    <p style="border: 1px dashed black;" *ngIf="createdSuccessfull">
-      The event was created successfull.
-    </p>
+    <button mat-button (click)="submitEvent(topicField.value, dateField.value, timeField.value, platformField.value, descriptionField.value)">Submit</button>
+    <div style="border: 1px dashed black;" *ngIf="createdSuccessfull">
+      <p>The event was created successfull.></p>
+      <div *ngIf="shareLink">
+        Here is the link to share <a [href]="shareLink">{{shareLink}</a>}<br>
+        Here is a link to send a mail <a [href]="'mailto:name@example.com?subject=OnlineFreetimeManager&I%20want%20you%20to%20join%20my%20freetime%20event%20on%20'+shareLinkEncoded">{{shareLink}</a>}<br>
+      </div>
+    </div>
     <p style="border: 1px dashed black;" *ngIf="createdUnSuccessfull">
       The event can't be created.
     </p>

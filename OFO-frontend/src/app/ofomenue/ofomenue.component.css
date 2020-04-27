@@ -34,3 +34,7 @@ li{
 #menueMainbtn{
   padding: 0;
 }
+.mobileMenue .mat-menu-content{
+  display: flex;
+  flex-direction: column;
+}

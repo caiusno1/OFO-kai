@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiPrefix : '/oapi/'
+  apiPrefix : '/oapi/',
+  sourceDomain : 'http://localhost/'
 };

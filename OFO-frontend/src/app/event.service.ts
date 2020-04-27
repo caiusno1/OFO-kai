@@ -12,13 +12,13 @@ export class EventService {
 
   }
   addEvent(event: any){
-    console.log("Do http request");
+    console.log('Do http request');
     return this.httpService.post(`${environment.apiPrefix}addEvent`, event).toPromise().then((msg) => {
       console.log(msg);
       return msg;
     });
   }
   getEvent(id: string){
-    return this.httpService.post<OFOEvent>(`${environment.apiPrefix}getEvent`, id);
+    return this.httpService.post<OFOEvent>(`${environment.apiPrefix}getMyEvent`, {id: id});
   }
 }
