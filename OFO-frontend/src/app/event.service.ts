@@ -7,6 +7,18 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class EventService {
+  joinMeToEvent(eventid: string) {
+    this.httpService.post(`${environment.apiPrefix}joinMeToEvent`, { id: eventid }).toPromise().then((msg) => {
+      console.log(msg);
+      return msg;
+    });
+  }
+  removeMeFromEvent(eventid: any) {
+    this.httpService.post(`${environment.apiPrefix}removeMeFromEvent`, { id: eventid }).toPromise().then((msg) => {
+      console.log(msg);
+      return msg;
+    });
+  }
 
   constructor(private httpService: HttpClient) {
 

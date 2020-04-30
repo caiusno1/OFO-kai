@@ -1,0 +1,22 @@
+
+<div class="topdiv">
+    <form>
+      <mat-form-field>
+        <mat-label>Username</mat-label>
+        <input matInput type="text" #usernameField>
+      </mat-form-field>
+      <button mat-stroked-button (click)="addFriend(usernameField.value)">Add Friend</button>
+      <mat-error *ngIf="usernameNotExist" >
+        This username do not exist
+      </mat-error>
+      <mat-error *ngIf="serverError" >
+        There was a server error. Please try later. Or you tried to add yourself :).
+      </mat-error>
+      <mat-error *ngIf="unknownError" >
+        An unknown error occured. Maybe try later.
+      </mat-error>
+      <mat-hint *ngIf="successfullyAdded">
+        Successfully added {{usernameField.value}} to your friends
+      </mat-hint>
+    </form>
+  </div>

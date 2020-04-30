@@ -1,3 +1,7 @@
+import { EventService } from './../event.service';
+import { BetterPritableOFOEvent } from './../BetterPritableOFOEvent';
+import { AuthService } from './../auth.service';
+import { OFOEvent } from './../OFOEvent';
 import { environment } from './../../environments/environment.prod';
 import { UserService } from './../user.service';
 import { Component, OnInit } from '@angular/core';
@@ -9,12 +13,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyEventsComponent implements OnInit {
   public mobileMode = false;
-  public events = [];
+  public events: BetterPritableOFOEvent[] = [];
   public shareUrlPrefix = environment.sourceDomain;
+  public myUserName: string;
   columnsToDisplay = ['date', 'time', 'topic', 'service', 'joined', 'link'];
   columnsToDisplayMobile = ['date', 'topic', 'joined'];
-  constructor(userService: UserService) {
-    userService.getMyEvents().subscribe(myevents => this.events = myevents);
+  constructor(userService: UserService, authService: AuthService, private eventService: EventService) {
+    this.myUserName = authService.getMyUsername();
+    userService.getMyEvents().subscribe(myevents => {
+      this.events = myevents as BetterPritableOFOEvent[];
+      this.events = this.events.map((event) => {
+        const  bPevent = event as BetterPritableOFOEvent;
+        bPevent.meJoined = this.AmIJoined(bPevent);
+        bPevent.IamTheOrganiser = bPevent.organiser.name === this.myUserName;
+        return bPevent;
+      });
+    });
   }
 
   ngOnInit(): void {
@@ -33,6 +47,19 @@ export class MyEventsComponent implements OnInit {
     } else {
       return this.columnsToDisplay;
     }
+  }
+  JointOrUnregister(event: BetterPritableOFOEvent){
+    if (event.meJoined){
+      event.meJoined = false;
+      this.eventService.removeMeFromEvent(event.id);
+    } else {
+      event.meJoined = true;
+      this.eventService.joinMeToEvent(event.id);
+    }
+  }
+  AmIJoined(event: BetterPritableOFOEvent){
+    return event.organiser.name === this.myUserName
+    || event.joinedParticipants.map((p) => p.name).includes(this.myUserName);
   }
 
 }

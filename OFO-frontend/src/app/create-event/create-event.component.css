@@ -13,3 +13,6 @@
   justify-content: center;
   flex-grow: 2;
 }
+.infoBox{
+  border: 1px dashed black;
+}

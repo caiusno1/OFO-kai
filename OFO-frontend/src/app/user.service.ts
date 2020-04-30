@@ -1,3 +1,4 @@
+import { OFOEvent } from './OFOEvent';
 import { Participant } from './Participants';
 import { IProfile } from './IProfile';
 import { HttpClient } from '@angular/common/http';
@@ -23,9 +24,12 @@ export class UserService {
     return this.httpClient.get<Participant[]>(`${this.urlPrefix}friends`);
   }
   public getMyEvents(){
-    return this.httpClient.get<any[]>(`${this.urlPrefix}myevents`);
+    return this.httpClient.get<OFOEvent[]>(`${this.urlPrefix}myevents`);
   }
   public setMyFreetime(freetime: any){
     return this.httpClient.post<any>(`${this.urlPrefix}setMyFreetime`, freetime).toPromise();
+  }
+  public addFriend(friendNameQuery: any) {
+    return this.httpClient.post<any>(`${this.urlPrefix}addFriend`, friendNameQuery).toPromise();
   }
 }

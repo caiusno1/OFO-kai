@@ -13,6 +13,7 @@ const userService = require('./services/mongo/UserService');
 const {db, UserModel, EventModel} = require('./services/mongo/MainDBService')
 const AuthService = require('./services/mongo/AuthService');
 const authService = new AuthService(db, UserModel);
+const crypto = require('crypto');
 
 require('express-ws')(app);
 
@@ -85,7 +86,8 @@ app.post('*/authenticate', function (req, res, next) {    passport.authenticate(
 app.post('*/register', (req, res) => { 
     UserModel.exists({name:req.body.name}).then(userExists => {
         if(!userExists){
-            const newUser = new UserModel({ name: req.body.name, id: req.body.id, age: req.body.age, hobbies: req.body.hobbies, job: req.body.job, ueberMich: req.body.aboutMe, password: req.body.password });
+            const pwhash = crypto.createHash('sha256').update(req.body.password).digest('base64');
+            const newUser = new UserModel({ name: req.body.name, id: req.body.id, age: req.body.age, hobbies: req.body.hobbies, job: req.body.job, ueberMich: req.body.aboutMe, password: pwhash });
             newUser.save().then(
                 () => {
                     res.send({message:"User created", status : 0})
@@ -120,6 +122,13 @@ app.get('*/friends', passport.authenticate('jwt', {session: false}) , (req, res)
         res.send({message:`Failure while loading: ${err}`});
     });
 });
+app.post('*/addFriend', passport.authenticate('jwt', {session: false}) , (req, res) => {
+    new userService(req.user, db, UserModel, EventModel).addFriend(req.body.name).then((friends)=> {
+        res.send(friends);
+    }).catch(err => {
+        res.send({message:`Failure while loading: ${err}`, status: 1});
+    });
+});
 app.post('*/addEvent', passport.authenticate('jwt', {session: false}) , (req, res) => {
     new userService(req.user, db, UserModel, EventModel).addToMyEvents(req.body).then((event)=> {
         res.send(event);
@@ -130,6 +139,20 @@ app.post('*/addEvent', passport.authenticate('jwt', {session: false}) , (req, re
 app.post('*/getMyEvent', passport.authenticate('jwt', {session: false}) , (req, res) => {
     new userService(req.user, db, UserModel, EventModel).getMyEventByID(req.body.id).then((myevent)=> {
         res.send(myevent);
+    }).catch(err => {
+        res.send({message:`Failure while loading: ${err}`, status : 1});
+    });
+});
+app.post('*/joinMeToEvent', passport.authenticate('jwt', {session: false}) , (req, res) => {
+    new userService(req.user, db, UserModel, EventModel).joinMeToEvent(req.body.id).then((myevent)=> {
+        res.send({msg: 'Successfully joined to event'});
+    }).catch(err => {
+        res.send({message:`Failure while loading: ${err}`, status : 1});
+    });
+});
+app.post('*/removeMeFromEvent', passport.authenticate('jwt', {session: false}) , (req, res) => {
+    new userService(req.user, db, UserModel, EventModel).removeMeFromEvent(req.body.id).then((myevent)=> {
+        res.send({msg: 'Successfully removed from event'});
     }).catch(err => {
         res.send({message:`Failure while loading: ${err}`, status : 1});
     });

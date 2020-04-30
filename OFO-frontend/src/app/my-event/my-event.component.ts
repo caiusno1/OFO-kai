@@ -1,3 +1,4 @@
+import { AuthService } from './../auth.service';
 import { OFOEvent } from './../OFOEvent';
 import { EventService } from './../event.service';
 import { Component, OnInit } from '@angular/core';
@@ -12,16 +13,23 @@ import { Observable } from 'rxjs';
 })
 export class MyEventComponent implements OnInit {
   public myEvent$: Observable<OFOEvent>;
-  constructor(private route: ActivatedRoute, private eventService: EventService) {
-    this.myEvent$ = this.route.paramMap.pipe(
-      switchMap<ParamMap, Observable<OFOEvent>>((params: ParamMap) => {
-        return this.eventService.getEvent(params.get('id'));
-      }
-      )
-    );
+  public eventID: string;
+  public myEvent: OFOEvent;
+  public myName: string;
+  public IamTheOrganiser: boolean;
+  constructor(private route: ActivatedRoute, private eventService: EventService, private authService: AuthService) {
+    this.myName = authService.getMyUsername();
+    this.route.paramMap.subscribe(params => {
+      this.eventID = params.has('id') ?  params.get('id') : '';
+      this.myEvent$ = this.eventService.getEvent(this.eventID);
+      this.myEvent$.subscribe((event) => this.IamTheOrganiser = event.organiser.name === this.myName);
+    });
   }
 
   ngOnInit(): void {
+  }
+  joinMe(){
+    this.eventService.joinMeToEvent(this.eventID);
   }
 
 }

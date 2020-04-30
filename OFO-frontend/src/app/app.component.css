@@ -1,5 +1,12 @@
 #logoutBtn{
-  position: fixed;
+  position: absolute;
   right: 20px;
-  top: 20px;
+  top: 15px;
+}
+footer {       /* Footer height */
+}
+#app{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }

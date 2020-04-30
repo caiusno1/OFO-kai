@@ -1,5 +1,5 @@
-<div style="width: 100%; background-color: rgb(153, 252, 252); display: flex; justify-content: center;">
-  <h2 *ngIf="!mobileMode"  style="padding: 5px;">My events</h2>
+<div class="topdiv">
+  <h2 *ngIf="!mobileMode">My events</h2>
   <table mat-table [dataSource]="events">
     <ng-container matColumnDef="date">
       <th mat-header-cell *matHeaderCellDef> Date </th>
@@ -23,7 +23,7 @@
 
     <ng-container matColumnDef="joined">
       <th mat-header-cell *matHeaderCellDef> Joined </th>
-      <td mat-cell *matCellDef="let myevent"><input mat-input type="checkbox" [checked] = "myevent.Joined"></td>
+      <td mat-cell *matCellDef="let myevent"><input mat-input type="checkbox" [checked] = "myevent.meJoined" (click)="JointOrUnregister(myevent)" [disabled]="myevent.IamTheOrganiser"></td>
     </ng-container>
 
     <ng-container matColumnDef="link">

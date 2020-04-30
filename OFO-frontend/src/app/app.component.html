@@ -1,9 +1,13 @@
+<div id="app">
 <mat-toolbar>
   <app-ofomenue></app-ofomenue>
   <button *ngIf="authService.isAuthenticated()"  mat-button id="logoutBtn" (click)="logout()">Logout</button>
 </mat-toolbar>
 <router-outlet></router-outlet>
-
+<footer *ngIf="authService.isAuthenticated()">
+<app-add-friend></app-add-friend>
+</footer>
+</div>
 
 
 

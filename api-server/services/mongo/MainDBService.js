@@ -26,8 +26,9 @@ const UserModel = mongoose.model('User', { name: {type:String, unique : true, re
                                             sundayFreetime: String 
 });
 
-const EventModel = mongoose.model('Event', { topic:String, date: String, time: String, organiser: {type: Schema.Types.ObjectId, ref: 'User'}, participants: [{type: Schema.Types.ObjectId, ref: 'User'}], platform: String, description: String});
+const EventModel = mongoose.model('Event', { topic:String, date: String, time: String, organiser: {type: Schema.Types.ObjectId, ref: 'User'}, participants: [{type: Schema.Types.ObjectId, ref: 'User'}], platform: String, description: String, joinedParticipants:[{type: Schema.Types.ObjectId, ref: 'User'}]});
 
+/* for debug
 UserModel.exists({ name: 'Kai'}).then(userExists => {
     if(!userExists){
 
@@ -38,4 +39,5 @@ UserModel.exists({ name: 'Kai'}).then(userExists => {
 
     }
 });
+*/
 module.exports = {mongoose, UserModel, EventModel}

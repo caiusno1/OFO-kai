@@ -31,6 +31,6 @@
         <td>{{(myEvent$|async)?.participants | participants2View}}</td>
       </tr>
     </table>
-    <button>Join</button>
+    <button (click)="joinMe()" [disabled]="IamTheOrganiser">Join</button>
 </mat-card-content>
 </mat-card>

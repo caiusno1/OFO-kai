@@ -15,7 +15,33 @@ module.exports = class UserService {
     }
     getFriends(){
         return this.userModel.findOne({name:this.username}).populate('friends').then((res)=>{
-            return res.friends.map((friend)=>{return {name:friend.name,id:friend._id}});
+            return res.friends.map((friend)=>{return {name:friend.name, 
+                                                        id:friend._id,
+                                                        mondayFreetime: friend.mondayFreetime, 
+                                                        tuesdayFreetime: friend.tuesdayFreetime, 
+                                                        wednessdayFreetime: friend.wednessdayFreetime ,
+                                                        thursdayFreetime: friend.thursdayFreetime,
+                                                        fridayFreetime: friend.fridayFreetime,
+                                                        saturdayFreetime: friend.saturdayFreetime,
+                                                        sundayFreetime: friend.sundayFreetime
+                                                    }});
+        });
+    }
+    addFriend(friendname){
+        console.log(friendname);
+        if(friendname == this.username){
+            return Promise.reject("Same user and friend");
+        }
+        return this.userModel.findOne({name:friendname}).then((newFriend)=>{
+            if(newFriend) {
+                return this.userModel.findOneAndUpdate({name:this.username}, {$addToSet:{friends:[newFriend._id]}}).then((user)=>{
+                    if(!user.friends || !Array.isArray(user.friends)){
+                        user.friends = [];
+                    } 
+                    user.friends.push(newFriend._id);
+                    return { status: 0}
+                });
+            } else return { status : 2}
         });
     }
     getProfile(){
@@ -28,10 +54,16 @@ module.exports = class UserService {
         .populate({
             path: "participants",
         })
+        .populate({
+            path: "organiser",
+        })
+        .populate({
+            path: "joinedParticipants",
+        })
         .then((res)=>{
             let myEvents = [];
             for(const event of res){
-                myEvents.push({id:event._id, topic: event.topic, date: event.date, time: event.time, participants: event.participants.map((participant)=> {return {name:participant.name, id:participant.id}}), service:event.platform});
+                myEvents.push({id:event._id, topic: event.topic, date: event.date, time: event.time, participants: event.participants.map((participant) => {return {name:participant.name, id:participant._id}}), service:event.platform, joinedParticipants: event.joinedParticipants.map((participant)=> {return {name:participant.name, id:participant._id}}), organiser: {name:event.organiser.name, id:event.organiser._id}});
             }
             return myEvents;
         }).catch(err => {
@@ -39,8 +71,12 @@ module.exports = class UserService {
         });
     }
     getMyEventByID(id){
-        return this.eventModel.findOne({_id:ObjectId(id)}).populate('organiser').populate('participants').then((event) => {
-            return {topic: event.topic, date: event.date, time: event.time, participants: event.participants.map((participant)=> {return {name:participant.name, id:participant.id}}), service:event.platform, organiser: event.organiser, description: event.description};
+        return this.eventModel.findOne({_id:ObjectId(id)})
+        .populate('organiser')
+        .populate('participants')
+        .populate('joinedParticipants')
+        .then((event) => {
+            return {topic: event.topic, date: event.date, time: event.time, participants: event.participants.map((participant)=> {return {name:participant.name, id:participant._id}}), service:event.platform, organiser: {name:event.organiser.name, id:event.organiser._id}, description: event.description, joinedParticipants: event.joinedParticipants.map((participant)=> {return {name:participant.name, id:participant._id}})};
         })
     }
     addToMyEvents(event){
@@ -48,6 +84,16 @@ module.exports = class UserService {
         return newEvent.save().then(function(newevent) {
                 return {id:newevent.id};
          });
+    }
+    joinMeToEvent(id){
+        return this.eventModel.findOneAndUpdate({_id:ObjectId(id)}, {$addToSet:{participants:[this.userID], joinedParticipants:[this.userID]}}).then((res) => {
+            //console.log(res);
+        }); 
+    }
+    removeMeFromEvent(id){
+        return this.eventModel.findOneAndUpdate({_id:ObjectId(id)}, {$pull:{participants:this.userID, joinedParticipants:this.userID}}, {new: true}).then((res) => {
+            // console.log(res);
+        }); 
     }
     setMyFreetime(event){
         return this.userModel.findOneAndUpdate({name: this.username}, { $set: { mondayFreetime: event.mondayFreetime, 

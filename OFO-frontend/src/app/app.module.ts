@@ -32,6 +32,10 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatIconModule} from '@angular/material/icon';
 import { MyEventComponent } from './my-event/my-event.component';
+import { AddFriendComponent } from './add-friend/add-friend.component';
+import { HelpComponent } from './help/help.component';
+import { ImpressumComponent } from './impressum/impressum.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +50,11 @@ import { MyEventComponent } from './my-event/my-event.component';
     LoginComponent,
     RegisterComponent,
     CalendarBlockDirective,
-    MyEventComponent
+    MyEventComponent,
+    AddFriendComponent,
+    HelpComponent,
+    ImpressumComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,

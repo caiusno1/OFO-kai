@@ -1,8 +1,15 @@
 table {
-  width: 100%;
+  width: 90%;
+  overflow: hidden;
 }
 @media only screen and (max-width: 900px) {
   .desktopOnly{
     display: none;
   }
+}
+.topdiv{
+  width: 100%; background-color: rgb(153, 252, 252); display: flex; justify-content: center;
+}
+h2{
+  padding: 5px;
 }

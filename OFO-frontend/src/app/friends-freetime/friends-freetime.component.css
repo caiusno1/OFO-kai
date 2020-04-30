@@ -19,7 +19,7 @@
 }
 #siteMain{
   padding-top: 1%;
-  height: 70%;
+  height: 80%;
 }
 .calheader{
   font-size: 1.5em;
@@ -35,4 +35,7 @@
 }
 .calSlot{
   height: 100%;
+}
+:host(){
+  flex-grow: 1
 }

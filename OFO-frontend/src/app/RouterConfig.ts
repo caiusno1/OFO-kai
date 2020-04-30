@@ -1,3 +1,6 @@
+import { ImpressumComponent } from './impressum/impressum.component';
+import { NotFoundComponent } from './not-found/not-found.component';
+import { HelpComponent } from './help/help.component';
 import { MyEventComponent } from './my-event/my-event.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
@@ -51,6 +54,21 @@ export const RouterConfig = [
   {
     path: 'myevent/:id',
     component: MyEventComponent,
+    canActivate : [AuthGuardService]
+  },
+  {
+    path: 'help',
+    component: HelpComponent,
+    canActivate : [AuthGuardService]
+  },
+  {
+    path: 'impressum',
+    component: ImpressumComponent,
+    canActivate : [AuthGuardService]
+  },
+  {
+    path: '**',
+    component: NotFoundComponent,
     canActivate : [AuthGuardService]
   }
 ];

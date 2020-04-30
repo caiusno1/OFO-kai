@@ -7,12 +7,18 @@ import { environment } from './../environments/environment';
   providedIn: 'root'
 })
 export class AuthService {
+  // tslint:disable-next-line:variable-name
+  private _username: string;
   public createUser(email: string, name: string, password: string, age: number, job: string,hobbies: string, aboutMe: string) {
-    return this.http.post(`${environment.apiPrefix}register`, 
-    {email: email, name: name, password: password, age: age, job:job, hobbies: hobbies, aboutMe: aboutMe})
-    .toPromise().catch((err) => Promise.reject()).then((res)=> {
-      if((res as any).status == 0) this.router.navigate(['/login']);
-    });
+    return this.http.post(`${environment.apiPrefix}register`,
+    {email, name, password, age, job, hobbies, aboutMe})
+    .toPromise()
+    .then((res) => {
+      if ((res as any).status === 0){
+        this.router.navigate(['/login']);
+      }
+    })
+    .catch((err) => Promise.reject());
   }
 
   constructor(private http: HttpClient, private router: Router) { }
@@ -34,8 +40,25 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
-  public validate(email, password) {
-    return this.http.post(`${environment.apiPrefix}authenticate`, {username : email, password : password})
-    .toPromise().catch((err) => Promise.reject());
+  public validate(username, password) {
+    return this.http.post(`${environment.apiPrefix}authenticate`, {username, password })
+    .toPromise()
+    .then((valid) => {
+      if (valid){
+        this._username = username;
+        localStorage.setItem('username', username);
+      }
+      return valid;
+    }).catch(
+    (err) => Promise.reject());
+  }
+
+  public getMyUsername(): string {
+    if (this._username){
+      return this._username;
+    } else {
+      return localStorage.getItem('username');
+    }
+
   }
 }
