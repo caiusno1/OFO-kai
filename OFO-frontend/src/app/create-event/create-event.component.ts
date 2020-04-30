@@ -58,7 +58,7 @@ export class CreateEventComponent implements OnInit {
       if ( (msg as any).status){
         this.createdUnSuccessfull = true;
       } else {
-        this.shareLink = `${environment.sourceDomain}share/${(msg as any).id}`;
+        this.shareLink = `${environment.sourceDomain}ofo/share/${(msg as any).id}`;
         this.shareLinkEncoded = encodeURIComponent(this.shareLink);
         this.createdSuccessfull = true;
       }
