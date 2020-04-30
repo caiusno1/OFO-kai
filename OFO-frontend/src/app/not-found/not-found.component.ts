@@ -1,3 +1,4 @@
+/** Component for showing a 404 Not Found page */
 import { Component, OnInit } from '@angular/core';
 
 @Component({

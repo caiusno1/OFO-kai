@@ -1,3 +1,6 @@
+/**
+ * This service manage all authentication related stuff such as asking the server for an JWT Token, providing the stored username ...
+ */
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';

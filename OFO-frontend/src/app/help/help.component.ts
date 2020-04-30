@@ -1,3 +1,7 @@
+/**
+ * TODO create in app wiki here
+ */
+
 import { Component, OnInit } from '@angular/core';
 
 @Component({

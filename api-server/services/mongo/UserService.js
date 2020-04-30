@@ -1,10 +1,15 @@
+/**
+ * Service for doing the actual database querys
+ */
+
 const ObjectId = require("mongoose").Types.ObjectId;
+
 module.exports = class UserService {
-    userModel;
     username;
     userID;
     db;
     eventModel;
+    userModel;
 
     constructor(puser, pdb, pUserModel, EventModel){
         this.userModel = pUserModel;
@@ -28,25 +33,24 @@ module.exports = class UserService {
         });
     }
     addFriend(friendname){
-        console.log(friendname);
         if(friendname == this.username){
             return Promise.reject("Same user and friend");
         }
         return this.userModel.findOne({name:friendname}).then((newFriend)=>{
-            console.log(newFriend + '' + friendname)
-            if(newFriend) {
+            if(newFriend) { // friend exists in database
                 return this.userModel.findOneAndUpdate({name:this.username}, {$addToSet:{friends:[newFriend._id]}}).then((user)=>{
                     if(!user.friends || !Array.isArray(user.friends)){
-                        user.friends = [];
+                        user.friends = []; // initialise array if necessary 
                     } 
                     user.friends.push(newFriend._id);
-                    return { status: 0}
+                    return { status: 0} // status: everything fine
                 });
-            } else return { status : 2}
+            } else return { status : 2} //status: problem with database (can't find entry ....)
         });
     }
     getProfile(){
         return this.userModel.findOne({name:this.username}).then((res)=>{
+            // map to not disclose password hash and other private data
             return {name:res.name,age:res.age, hobbies:res.hobbies, job:res.job, aboutMe: res.ueberMich};
         });
     }

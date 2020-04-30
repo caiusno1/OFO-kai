@@ -1,3 +1,7 @@
+/**
+ * The actual configuration of the url based routing in the Online Freetime Manager
+ */
+
 import { ImpressumComponent } from './impressum/impressum.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { HelpComponent } from './help/help.component';

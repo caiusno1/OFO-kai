@@ -1,3 +1,4 @@
+/** A simple http service for querying the user's profile, friends ... from the api */
 import { OFOEvent } from './OFOEvent';
 import { Participant } from './Participants';
 import { IProfile } from './IProfile';

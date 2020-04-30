@@ -1,3 +1,6 @@
+/**
+ * Component for visalising a single event (given by id as route parama)
+ */
 import { AuthService } from './../auth.service';
 import { OFOEvent } from './../OFOEvent';
 import { EventService } from './../event.service';
@@ -28,6 +31,7 @@ export class MyEventComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  // If the user hit the join button he/she should be registered to the event
   joinMe(){
     this.eventService.joinMeToEvent(this.eventID);
   }

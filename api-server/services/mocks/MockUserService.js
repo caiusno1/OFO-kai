@@ -1,3 +1,6 @@
+/** 
+ * Only a mock Userservice to enable early testing of the UI
+*/
 module.exports = class MockUserService {
     friends = [
         { name: "Noel ", id: "TripleX"},

@@ -13,21 +13,28 @@ import {MatDialog} from '@angular/material/dialog';
   styleUrls: ['./create-event.component.css']
 })
 export class CreateEventComponent implements OnInit {
+  // form value variables
   selected = 'None';
-  createdSuccessfull = false;
-  createdUnSuccessfull = false;
-  shareLink = null;
-  shareLinkEncoded = null;
-  smartShareEnabled: boolean;
   public participants: Participant[] = [];
   private dateString: string;
   private timeString: string;
-  public particpantsNotAvailable: Participant[];
+
+  // Event creating status variables
+  createdSuccessfull = false;
+  createdUnSuccessfull = false;
   public particpantsAreNotAvailable = false;
+  public particpantsNotAvailable: Participant[];
   public timeSuppremum = '0:00';
+
+  // share link variables
+  shareLink = null;
+  shareLinkEncoded = null;
+  smartShareEnabled: boolean;
+
   constructor(public dialog: MatDialog, private eventService: EventService) { }
 
   ngOnInit(): void {
+    // check whether browser supports the html5 share api
     this.smartShareEnabled = 'share' in window.navigator;
   }
   openAddParticipantDialog(){
@@ -37,14 +44,17 @@ export class CreateEventComponent implements OnInit {
       data: this.participants
     });
     dialogRef.afterClosed().subscribe(result => {
+      // sync particiapants from dialog
       console.log('The dialog was closed');
       this.participants = result;
       this.checkDatesForParticipants();
     });
   }
+  // submit event data to the server for adding to the db
   submitEvent(topic, date, time, platform, description){
     console.log('Save event');
     this.eventService.addEvent({topic, date, time, participants: this.participants, platform, description}).then((msg) => {
+      // show result (negative and positive) and share link / button (on success)
       if ( (msg as any).status){
         this.createdUnSuccessfull = true;
       } else {
@@ -54,14 +64,17 @@ export class CreateEventComponent implements OnInit {
       }
     });
   }
+  // Date inputfield change handler
   onDateChange(value){
     this.dateString = value;
     this.checkDatesForParticipants();
   }
+  // Time inputfield change handler
   onTimeChange(value){
     this.timeString = value;
     this.checkDatesForParticipants();
   }
+  // Check whether all participants are available at the given date and time and otherwise make suggestions
   checkDatesForParticipants(){
     if (this.timeString && this.dateString){
       this.particpantsAreNotAvailable = false;
@@ -88,12 +101,12 @@ export class CreateEventComponent implements OnInit {
             return (participant: Participant) => participant.saturdayFreetime;
         }
       };
+      // convert daytime to minutes from the start of the day. Therefore times can be compared
       const convert2minutes = (m: string) => {
         const splittedTime = m.split(':');
         return Number.parseInt(splittedTime[0], 10) * 60 + Number.parseInt(splittedTime[1], 10);
       };
 
-      console.log(weekDay.getDay());
       const freetimeForEventDay = dayInj(weekDay.getDay());
       // Compute not available participants
       for (const participant of this.participants){
@@ -108,10 +121,10 @@ export class CreateEventComponent implements OnInit {
         }
       }
       this.particpantsAreNotAvailable = this.particpantsNotAvailable.length > 0;
-      console.log(`Time validation! ${this.particpantsNotAvailable.map((p) => p.name).join(',')}`);
     }
   }
   shareViaAPI(){
+    // if share api is enabled show native share dialog
     if ('share' in window.navigator){
       (window.navigator as any).share({url: this.shareLink, text: 'Let us meet via OFM', title: 'Event join request'});
     }

@@ -36,21 +36,22 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: My1%&7/34W&7/(%45345jdsf)
     volumes:
       - data-volume:/var/lib/db
-  mongo-express:
-    image: mongo-express
-    restart: always
-    environment:
-        - ME_CONFIG_MONGODB_SERVER=mongo
-        - ME_CONFIG_MONGODB_ADMINUSERNAME=root
-        - ME_CONFIG_MONGODB_ADMINPASSWORD=My1%&7/34W&7/(%45345jdsf)
-        - ME_CONFIG_BASICAUTH_USERNAME=admin
-        - ME_CONFIG_BASICAUTH_PASSWORD=admin
-    depends_on:
-      - mongo
-    ports:
-      - "8081:8081"
-    links:
-      - "mongo"
+#  # for development only
+#  mongo-express:
+#    image: mongo-express
+#    restart: always
+#    environment:
+#        - ME_CONFIG_MONGODB_SERVER=mongo
+#        - ME_CONFIG_MONGODB_ADMINUSERNAME=root
+#        - ME_CONFIG_MONGODB_ADMINPASSWORD=My1%&7/34W&7/(%45345jdsf)
+#        - ME_CONFIG_BASICAUTH_USERNAME=admin
+#        - ME_CONFIG_BASICAUTH_PASSWORD=admin
+#    depends_on:
+#      - mongo
+#    ports:
+#      - "8081:8081"
+#    links:
+#      - "mongo"
     
 volumes:
   data-volume:

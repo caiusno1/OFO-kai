@@ -22,6 +22,7 @@ export class MyEventsComponent implements OnInit {
     this.myUserName = authService.getMyUsername();
     userService.getMyEvents().subscribe(myevents => {
       this.events = myevents as BetterPritableOFOEvent[];
+      // transform the event list to contain additional implict information such as whether i joined the event
       this.events = this.events.map((event) => {
         const  bPevent = event as BetterPritableOFOEvent;
         bPevent.meJoined = this.AmIJoined(bPevent);
@@ -33,6 +34,7 @@ export class MyEventsComponent implements OnInit {
 
   ngOnInit(): void {
     // enable mobile view if screensize is below 960 pixel
+    // (delete some colums in the table on a mobile device)
     const mq = window.matchMedia( '(max-width: 960px)' );
 
     if (mq.matches) {
@@ -48,6 +50,7 @@ export class MyEventsComponent implements OnInit {
       return this.columnsToDisplay;
     }
   }
+  // handle the checkbox behavior
   JointOrUnregister(event: BetterPritableOFOEvent){
     if (event.meJoined){
       event.meJoined = false;

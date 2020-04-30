@@ -19,6 +19,7 @@ export class AddFriendComponent implements OnInit {
 
   addFriend(friendname: string){
     this.userService.addFriend({name: friendname}).then( (msg) => {
+      // check whether could add friend and give feedback to the user
       this.clearMsgs();
       if (msg.status){
         if (msg.status === 1){
@@ -31,12 +32,15 @@ export class AddFriendComponent implements OnInit {
       } else {
         this.successfullyAdded = true;
       }
+      // TODO figure out why this don't work (might be a contex change problem)
       window.setTimeout(this.clearMsgs, 5000);
     }).catch( () => {
       this.unknownError = true;
+      // TODO figure out why this don't work (might be a contex change problem)
       window.setTimeout(this.clearMsgs, 5000);
     });
   }
+  // Clear the feedback given to the user
   private clearMsgs(){
     this.serverError = false;
     this.unknownError = false;

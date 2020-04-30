@@ -1,9 +1,12 @@
+# ----------------- Needed plugins ------------------------------------------------------------------------------------------------------------------------------------------------------
 unless Vagrant.has_plugin?("vagrant-disksize")
   raise  Vagrant::Errors::VagrantError.new, "vagrant-disksize plugin is missing. Please install it using 'vagrant plugin install vagrant-disksize' and rerun 'vagrant up'"
 end
 unless Vagrant.has_plugin?("vagrant-docker-compose")
   raise  Vagrant::Errors::VagrantError.new, "vagrant-docker-compose plugin is missing. Please install it using 'vagrant plugin install vagrant-docker-compose' and rerun 'vagrant up'"
 end
+# ----------------- Needed plugins ------------------------------------------------------------------------------------------------------------------------------------------------------
+
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
@@ -31,7 +34,12 @@ Vagrant.configure("2") do |config|
   # NOTE: This will enable public access to the opened port
   config.vm.network "forwarded_port", guest: 80, host: 80
   config.vm.network "forwarded_port", guest: 22, host: 2222
-  config.vm.network "forwarded_port", guest: 8081, host: 8181
+
+  # --------------------------------------------------------------
+  # |     for development (mongo-express only)                   |
+  # --------------------------------------------------------------
+  # config.vm.network "forwarded_port", guest: 8081, host: 8181
+  # --------------------------------------------------------------
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine and only allow access

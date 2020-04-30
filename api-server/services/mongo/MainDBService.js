@@ -1,3 +1,6 @@
+/**
+ * This module exports every necessary database class (and object) that will by the application. We use Monoose as MongoDB ORM.
+ */
 const mongoose = require('mongoose');
 // mongoose.set('debug', true);
 
@@ -28,16 +31,4 @@ const UserModel = mongoose.model('User', { name: {type:String, unique : true, re
 
 const EventModel = mongoose.model('Event', { topic:String, date: String, time: String, organiser: {type: Schema.Types.ObjectId, ref: 'User'}, participants: [{type: Schema.Types.ObjectId, ref: 'User'}], platform: String, description: String, joinedParticipants:[{type: Schema.Types.ObjectId, ref: 'User'}]});
 
-/* for debug
-UserModel.exists({ name: 'Kai'}).then(userExists => {
-    if(!userExists){
-
-        const testUser = new UserModel({ name: 'Kai', age: 23, password: 'admin', hobbies: "programming, volleyball, volunteer @ German Red Cross", job:"Student", ueberMich: "Nothing more to say ;-)" });
-        testUser.save().then(() => {
-            console.log('User saved');
-        });
-
-    }
-});
-*/
 module.exports = {mongoose, UserModel, EventModel}

@@ -1,3 +1,7 @@
+/**
+ * TODO Nearly nothing since this component will be most probably static
+ *
+ */
 import { Component, OnInit } from '@angular/core';
 
 @Component({

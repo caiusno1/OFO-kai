@@ -1,3 +1,6 @@
+/**
+ * A simple HTTP service for querying events, joining events ...
+ */
 import { OFOEvent } from './OFOEvent';
 import { environment } from './../environments/environment';
 import { HttpClient } from '@angular/common/http';

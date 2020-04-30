@@ -1,3 +1,7 @@
+/**
+ * This is a simple registration form with some additional validator :). Nothing special X.
+ */
+
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators, FormGroupDirective, NgForm, FormGroup } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
@@ -36,9 +40,9 @@ export class RegisterComponent implements OnInit {
   ]);
 
   ngForm = new FormGroup({
-    emailFormControl:this.emailFormControl,
-    usernameFormControl:this.usernameFormControl,
-    passwordFormControl:this.passwordFormControl,
+    emailFormControl: this.emailFormControl,
+    usernameFormControl: this.usernameFormControl,
+    passwordFormControl: this.passwordFormControl,
     ageFormControl: this.ageFormControl,
     jobFormControl: new FormControl(''),
     hobbiesFormControl: new FormControl(''),
@@ -53,8 +57,8 @@ export class RegisterComponent implements OnInit {
   }
 
   submit(email, name, password, age, job, hobbies, aboutMe){
-    this.authService.createUser(email, name, password, age, job ,hobbies, aboutMe).then(res => {
-      if((res as any).status != 0){
+    this.authService.createUser(email, name, password, age, job , hobbies, aboutMe).then(res => {
+      if ((res as any).status != 0){
         this.serverError = (res as any).message;
       }
     });

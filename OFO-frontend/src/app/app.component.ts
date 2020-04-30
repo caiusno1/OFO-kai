@@ -1,3 +1,6 @@
+/**
+ * The Webapp root component (also handling the logout)
+ */
 import { AuthService } from './auth.service';
 import { Component } from '@angular/core';
 

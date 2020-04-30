@@ -1,3 +1,4 @@
+/** What this component do: Visualize the users profile */
 import { IProfile } from './../IProfile';
 import { UserService } from './../user.service';
 import { Component, OnInit } from '@angular/core';

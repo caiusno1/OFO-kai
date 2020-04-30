@@ -1,8 +1,14 @@
+/**
+ * This component makes it easy to enter the times you are available in the week
+ */
+
 import { UserService } from './../user.service';
 import { Component, OnInit } from '@angular/core';
-
+/**
+ * Support class for storing the freetime clock times
+ */
 class Freetimehandler {
-  mondayFreetime = '18:00';
+  mondayFreetime = '0:00';
   tuesdayFreetime = '0:00';
   wednessdayFreetime = '0:00';
   thursdayFreetime = '0:00';
@@ -17,8 +23,11 @@ class Freetimehandler {
   styleUrls: ['./friends-freetime.component.css']
 })
 export class FriendsFreetimeComponent{
+  // Freetime to visualize (input param)
   infreetimeHandler: Freetimehandler;
+  // Freetime currentlyVisualized (output param)
   outfreetimeHandler: Freetimehandler;
+
   constructor(private userService: UserService){
     this.infreetimeHandler = new Freetimehandler();
     this.userService.getMyFreetime().then( (freetime) => {
@@ -27,6 +36,7 @@ export class FriendsFreetimeComponent{
     });
     this.outfreetimeHandler = new Freetimehandler();
   }
+  /* change handlers for angular material draggables (the setting bars for the freetime)*/
   changeFreetimeMonday(time){
     this.outfreetimeHandler.mondayFreetime = time;
   }
@@ -49,7 +59,6 @@ export class FriendsFreetimeComponent{
     this.outfreetimeHandler.sundayFreetime = time;
   }
   submit(){
-    console.log(this.outfreetimeHandler);
     this.userService.setMyFreetime(this.outfreetimeHandler).then((result) => {
       console.log('Successfully saved freetime');
     }).catch((err) => {
