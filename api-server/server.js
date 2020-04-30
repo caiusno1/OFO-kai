@@ -87,7 +87,7 @@ app.post('*/register', (req, res) => {
     UserModel.exists({name:req.body.name}).then(userExists => {
         if(!userExists){
             const pwhash = crypto.createHash('sha256').update(req.body.password).digest('base64');
-            const newUser = new UserModel({ name: req.body.name, id: req.body.id, age: req.body.age, hobbies: req.body.hobbies, job: req.body.job, ueberMich: req.body.aboutMe, password: pwhash });
+            const newUser = new UserModel({ name: req.body.name.trim(), id: req.body.id, age: req.body.age, hobbies: req.body.hobbies, job: req.body.job, ueberMich: req.body.aboutMe, password: pwhash });
             newUser.save().then(
                 () => {
                     res.send({message:"User created", status : 0})

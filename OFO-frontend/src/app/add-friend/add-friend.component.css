@@ -1,7 +1,7 @@
 .topdiv{
-  display: flex; justify-content: right; flex-flow: row-reverse;
+
 }
 form{
   display: flex;
-    align-content: space-between;
+  flex-direction: column;
 }

@@ -11,7 +11,8 @@
 .container{
   display: flex;
   justify-content: center;
-  flex-grow: 2;
+  flex-grow: 1;
+  padding-bottom:100px;
 }
 .infoBox{
   border: 1px dashed black;

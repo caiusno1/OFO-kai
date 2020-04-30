@@ -33,6 +33,7 @@ module.exports = class UserService {
             return Promise.reject("Same user and friend");
         }
         return this.userModel.findOne({name:friendname}).then((newFriend)=>{
+            console.log(newFriend + '' + friendname)
             if(newFriend) {
                 return this.userModel.findOneAndUpdate({name:this.username}, {$addToSet:{friends:[newFriend._id]}}).then((user)=>{
                     if(!user.friends || !Array.isArray(user.friends)){

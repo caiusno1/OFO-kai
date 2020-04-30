@@ -19,11 +19,7 @@ export class AddFriendComponent implements OnInit {
 
   addFriend(friendname: string){
     this.userService.addFriend({name: friendname}).then( (msg) => {
-      this.serverError = false;
-      this.unknownError = false;
-      this.usernameNotExist = false;
-      this.successfullyAdded = false;
-
+      this.clearMsgs();
       if (msg.status){
         if (msg.status === 1){
           this.serverError = true;
@@ -35,9 +31,16 @@ export class AddFriendComponent implements OnInit {
       } else {
         this.successfullyAdded = true;
       }
+      window.setTimeout(this.clearMsgs, 5000);
     }).catch( () => {
       this.unknownError = true;
+      window.setTimeout(this.clearMsgs, 5000);
     });
   }
-
+  private clearMsgs(){
+    this.serverError = false;
+    this.unknownError = false;
+    this.usernameNotExist = false;
+    this.successfullyAdded = false;
+  }
 }

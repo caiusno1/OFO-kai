@@ -3,7 +3,9 @@
   <app-ofomenue></app-ofomenue>
   <button *ngIf="authService.isAuthenticated()"  mat-button id="logoutBtn" (click)="logout()">Logout</button>
 </mat-toolbar>
+<div id="body">
 <router-outlet></router-outlet>
+</div>
 <footer *ngIf="authService.isAuthenticated()">
 <app-add-friend></app-add-friend>
 </footer>
